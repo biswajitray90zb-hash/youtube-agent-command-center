@@ -1,0 +1,137 @@
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>YouTube AI Agent</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#090d18;color:#eef2ff;font-family:Arial,sans-serif;padding:18px}
+header{padding:18px;background:#151d30;border:1px solid #293653;border-radius:15px}
+h1{font-size:23px;margin:0 0 8px;color:#8daeff}
+p{color:#aab5ca;line-height:1.5}
+.card{background:#151d30;border:1px solid #293653;border-radius:14px;padding:16px;margin:14px 0}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat{background:#202c45;padding:14px;border-radius:12px}
+.stat strong{display:block;font-size:22px;color:#8daeff;margin-top:8px}
+button{background:#527cff;color:white;border:0;border-radius:9px;padding:12px;font-weight:bold;margin:5px 3px}
+input,select,textarea{width:100%;padding:13px;margin:8px 0;background:#0c1425;color:white;border:1px solid #344361;border-radius:9px}
+textarea{min-height:110px}
+.result{white-space:pre-wrap;background:#0b1425;padding:13px;border-radius:10px;min-height:80px;color:#cbd8f5}
+nav{display:flex;flex-wrap:wrap;gap:5px;margin:15px 0}
+nav button{background:#26334d}
+.small{font-size:13px;color:#91a0ba}
+</style>
+</head>
+<body>
+<header>
+<h1>⚡ YouTube AI Agent</h1>
+<p>Hindi Story Automation Command Center</p>
+<span class="small">● Dashboard ready · API not connected yet</span>
+</header>
+
+<nav>
+<button onclick="show('home')">Overview</button>
+<button onclick="show('story')">Story Agent</button>
+<button onclick="show('workflow')">Workflow</button>
+<button onclick="show('approval')">Approvals</button>
+</nav>
+
+<section id="home">
+<div class="stats">
+<div class="stat">AI Agents<strong>5</strong></div>
+<div class="stat">Workflows<strong>1</strong></div>
+<div class="stat">Videos<strong>0</strong></div>
+<div class="stat">API Status<strong>Pending</strong></div>
+</div>
+<div class="card">
+<h3>🚀 आपका YouTube Agent</h3>
+<p>यहाँ से हिंदी कहानी बनाने और वीडियो तैयार करने की प्रक्रिया शुरू होगी।</p>
+<button onclick="show('story')">नई कहानी बनाएँ</button>
+</div>
+</section>
+
+<section id="story" style="display:none">
+<div class="card">
+<h2>✍️ Story Agent</h2>
+<label>कहानी का विषय</label>
+<input id="topic" placeholder="जैसे: गरीब लकड़हारा और जादुई पेड़">
+<label>वीडियो की लंबाई</label>
+<select id="duration">
+<option>40-50 सेकंड</option>
+<option>1-2 मिनट</option>
+<option>5 मिनट</option>
+</select>
+<label>कहानी का प्रकार</label>
+<select id="style">
+<option>3D Cartoon Moral</option>
+<option>Horror</option>
+<option>Adventure</option>
+<option>Emotional</option>
+</select>
+<button onclick="makeStory()">कहानी का प्लान बनाएँ</button>
+<h3>आपका आउटपुट</h3>
+<div class="result" id="output">आपका कहानी प्लान यहाँ दिखाई देगा।</div>
+<button onclick="copyResult()">कॉपी करें</button>
+</div>
+</section>
+
+<section id="workflow" style="display:none">
+<div class="card">
+<h2>⚙️ Video Workflow</h2>
+<p>1. Topic Research</p>
+<p>2. Hindi Script Generation</p>
+<p>3. Scene Prompts</p>
+<p>4. AI Voice & Subtitles</p>
+<p>5. Video Editing</p>
+<p>6. Title, Description & Hashtags</p>
+<p>7. Your Approval</p>
+<p>8. YouTube Upload</p>
+</div>
+</section>
+
+<section id="approval" style="display:none">
+<div class="card">
+<h2>✅ Approval Center</h2>
+<p>वीडियो तैयार होने के बाद यहाँ उसकी जाँच और मंज़ूरी होगी।</p>
+<p class="small">अभी कोई वीडियो समीक्षा के लिए नहीं है।</p>
+</div>
+</section>
+
+<script>
+function show(id){
+['home','story','workflow','approval'].forEach(x=>{
+document.getElementById(x).style.display=x===id?'block':'none';
+});
+}
+function makeStory(){
+let t=document.getElementById('topic').value.trim();
+let d=document.getElementById('duration').value;
+let s=document.getElementById('style').value;
+if(!t){alert('पहले कहानी का विषय लिखें');return;}
+let text=`YouTube Hindi Story Plan
+
+विषय: ${t}
+लंबाई: ${d}
+शैली: ${s}
+
+1. पहले 3 सेकंड में दमदार Hook
+2. कहानी की शुरुआत और मुख्य किरदार
+3. कहानी में समस्या और संघर्ष
+4. समस्या का समाधान और अंत
+5. हर सीन के लिए अलग इमेज और वीडियो प्रॉम्प्ट
+6. हर किरदार का अपना हिंदी संवाद
+7. अंत में Like और Subscribe संदेश
+
+नोट: यह अभी प्लान टेम्पलेट है। असली AI कहानी बनाने के लिए API जोड़ना बाकी है।`;
+document.getElementById('output').textContent=text;
+}
+function copyResult(){
+let t=document.getElementById('output').textContent;
+if(navigator.clipboard)navigator.clipboard.writeText(t).then(()=>alert('कॉपी हो गया'));
+else alert('टेक्स्ट को दबाकर कॉपी करें');
+}
+</script>
+</body>
+</html>
